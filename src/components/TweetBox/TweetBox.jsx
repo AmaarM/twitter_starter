@@ -2,6 +2,7 @@ import * as React from "react"
 import TweetInput from "./TweetInput"
 import "./TweetBox.css"
 
+
 export default function TweetBox(props) {
   
   function handleOnTweetTextChange(event){
@@ -22,6 +23,10 @@ export default function TweetBox(props) {
     props.setTweetText("");
   }
 
+  let check = false;
+  if(props.tweetText.length === 0 || props.tweetText.length > 140){
+    check = true;
+  }
   return (
     <div className="tweet-box">
       <TweetInput value={props.tweetText} handleOnChange={handleOnTweetTextChange}/>
@@ -29,7 +34,7 @@ export default function TweetBox(props) {
       <div className="tweet-box-footer">
         <TweetBoxIcons />
         <TweetCharacterCount value={props.tweetText}/>
-        <TweetSubmitButton handleOnSubmit={handleOnSubmit} value={props.tweetText}/>
+        <TweetSubmitButton handleOnSubmit={handleOnSubmit} check={check}/>
       </div>
     </div>
   )
@@ -61,14 +66,10 @@ export function TweetCharacterCount(props) {
 }
 
 export function TweetSubmitButton(props) {
-    let check = false;
-    if(props.value.length === 0 || props.value.length > 140){
-      check = true;
-    }
     return (
       <div className="tweet-submit">
         <i className="fas fa-plus-circle"></i>
-        <button className="tweet-submit-button" onClick={props.handleOnSubmit} disabled={check}>Tweet</button>
+        <button className="tweet-submit-button" onClick={props.handleOnSubmit} disabled={props.check}>Tweet</button>
       </div>
     )
 
